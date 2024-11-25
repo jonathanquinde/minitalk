@@ -1,3 +1,7 @@
 notas
 *.out
+*.o
+server
+client
+*printf*
 test.c
