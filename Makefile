@@ -1,14 +1,32 @@
+CLIENT=client
+SERVER=server
+
+SRC_CLIENT=client.c
+SRC_SERVER=server.c
+OBJ_CLIENT=$(SRC_CLIENT:.c=.o)
+OBJ_SERVER=$(SRC_SERVER:.c=.o)
+PRINTF=libftprintf.a
+
 CC=cc
 FLAGS=-Wall -Wextra -Werror
 
-all: server client
+all: $(SERVER) $(CLIENT)
 
-server: server.c
-	$(CC) $(FLAGS) server.c -o server.out
-client: client.c
-	$(CC) $(FLAGS) client.c -o client.out
+$(CLIENT): $(OBJ_CLIENT)
+	$(CC) $(FLAGS) $(OBJ_CLIENT) $(PRINTF) -o $(CLIENT)
+
+$(SERVER): $(OBJ_SERVER)
+	$(CC) $(FLAGS) $(OBJ_SERVER) $(PRINTF) -o $(SERVER)
+
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm server client
+	rm -f $(OBJ_CLIENT) $(OBJ_SERVER)
 
-re: clean all
+fclean:
+	rm -f $(CLIENT) $(SERVER)
+
+re: fclean all
+
+.PHONY: all clean fclean re
