@@ -1,7 +1,6 @@
-notas
 *.out
 *.o
-server
+/.vscode
 client
-*printf*
-test.c
+server
+*.sh
