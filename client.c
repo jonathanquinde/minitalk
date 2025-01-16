@@ -4,7 +4,7 @@ void	to_binary(unsigned char ch, int server_pid);
 void	send_string(unsigned char *str, int server_pid);
 void	handle(int signum);
 
-int ack;
+int g_ack;
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 		write(1, "PID del servidor erroneo", 24);
 		return (1);
 	}
-	send_string(argv[2], server_pid);
+	send_string((unsigned char *) argv[2], server_pid);
 }
 
 void	send_string(unsigned char *str, int server_pid)
@@ -47,24 +47,24 @@ void to_binary(unsigned char ch, int server_pid)
     bits = 8;
     while (ch != 0)
     {
-		ack = 0;
+		g_ack = 0;
         if ((ch & 128) == 128)
 			kill(server_pid, 10);
         else if ((ch & 128) == 0)
 			kill(server_pid, 12);
-        ch = ch << 1;
+        ch <<= 1;
         bits--;
-		while (!ack)
+		while (!g_ack)
 		{
 			;
 		}
     }
     while (bits)
     {
-		ack = 0;
+		g_ack = 0;
 		kill(server_pid, 12);
         bits--;
-		while (!ack)
+		while (!g_ack)
 		{
 			;
 		}
@@ -74,5 +74,5 @@ void to_binary(unsigned char ch, int server_pid)
 void	handle(int signum)
 {
 	if (signum == 10)
-		ack = 1;
+		g_ack = 1;
 }

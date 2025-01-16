@@ -2,7 +2,6 @@
 
 void	handle(int signum, siginfo_t *info, void *ucontext);
 void	build_byte(unsigned char bit);
-void	bits_to_char(char byte[8]);
 void	putnbr(unsigned int num);
 
 int	main(void)
@@ -27,48 +26,29 @@ int	main(void)
 	}
 }
 
-void	bits_to_char(char byte[8])
-{
-	unsigned char	ch;
-
-	ch = 0;
-	if (byte[0] == 1)
-		ch += 128;
-	if (byte[1] == 1)
-		ch += 64;
-	if (byte[2] == 1)
-		ch += 32;
-	if (byte[3] == 1)
-		ch += 16;
-	if (byte[4] == 1)
-		ch += 8;
-	if (byte[5] == 1)
-		ch += 4;
-	if (byte[6] == 1)
-		ch += 2;
-	if (byte[7] == 1)
-		ch += 1;
-	write(1, &ch, 1);
-	if (ch == 0)
-		write(1, "\n", 1);
-}
-
 void	build_byte(unsigned char bit)
 {
-	static unsigned char byte[8];
-	static unsigned int i;
+	static int count;
+	static unsigned char ch;
 	
-	byte[i] = bit;
-	i++;
-	if (i == 8)
+	if (bit == 1)
 	{
-		i = 0;
-		bits_to_char(byte);
+		ch = ch << 1 | 1;
+	}
+	else
+	{
+		ch = ch << 1;
+	}
+	count++;
+	if (count == 8)
+	{
+		count = 0;
 	}
 }
 
 void	handle(int signum, siginfo_t *info, void *ucontext)
 {
+	(void)ucontext;
 	if (signum == 10)
 	{
 		build_byte(1);
