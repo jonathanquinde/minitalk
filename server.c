@@ -77,6 +77,7 @@ void	handle(int signum, siginfo_t *info, void *ucontext)
 	{
 		build_byte(0);
 	}
+	kill(info->si_pid, 10);
 }
 
 void putnbr(unsigned int num)

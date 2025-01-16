@@ -1,70 +1,78 @@
 #include "header.h"
 
-void    to_binary(unsigned char ch, int server_pid);
-void    fill_zero(unsigned char ch, int server_pid);
-void	send_string(char	*str, int server_pid);
+void	to_binary(unsigned char ch, int server_pid);
+void	send_string(unsigned char *str, int server_pid);
+void	handle(int signum);
+
+int ack;
 
 int main(int argc, char *argv[])
 {
 	int	server_pid;
-	char	*str;
+	struct sigaction	sa_usr1;
+
+	sa_usr1.sa_flags = 0;
+	sigemptyset(&sa_usr1.sa_mask);
+	sa_usr1.sa_handler = handle;
+	sigaction(10, &sa_usr1, NULL);
 
 	if (argc != 3)
 	{
-		ft_printf("Numero de argumentos invalidos");
+		write(1, "Numero erroneo de argumentos", 28);
 		return (1);
 	}
-	str = argv[2];
 	server_pid = atoi(argv[1]);
 	if (server_pid == 0)
 	{
-		ft_printf("PID del servidor invalido");
+		write(1, "PID del servidor erroneo", 24);
 		return (1);
 	}
-	send_string(str, server_pid);
+	send_string(argv[2], server_pid);
 }
 
-void	send_string(char *str, int server_pid)
+void	send_string(unsigned char *str, int server_pid)
 {
 	while (*str)
 	{
-		fill_zero(*str, server_pid);
 		to_binary(*str, server_pid);
 		str++;
 	}
-	fill_zero(*str, server_pid);
+	to_binary(*str, server_pid);
 }
 
-void    fill_zero(unsigned char ch, int server_pid)
+void to_binary(unsigned char ch, int server_pid) 
 {
-    int number_zero;
+    size_t bits;
 
-    number_zero = 8;
+    bits = 8;
     while (ch != 0)
     {
-        ch /= 2;
-        number_zero--;
+		ack = 0;
+        if ((ch & 128) == 128)
+			kill(server_pid, 10);
+        else if ((ch & 128) == 0)
+			kill(server_pid, 12);
+        ch = ch << 1;
+        bits--;
+		while (!ack)
+		{
+			;
+		}
     }
-    while (number_zero)
+    while (bits)
     {
+		ack = 0;
 		kill(server_pid, 12);
-		usleep(300);
-        number_zero--;
+        bits--;
+		while (!ack)
+		{
+			;
+		}
     }
 }
 
-void    to_binary(unsigned char ch, int server_pid)
+void	handle(int signum)
 {
-	if (ch >= 2)
-		to_binary(ch/2, server_pid);
-	if (ch % 2 == 0)
-	{
-		kill(server_pid, 12);
-		usleep(300);
-	}
-	else
-	{
-		kill(server_pid, 10);
-		usleep(300);
-	}
+	if (signum == 10)
+		ack = 1;
 }
