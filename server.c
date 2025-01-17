@@ -33,27 +33,23 @@ int	main(void)
 
 void	build_byte(unsigned char bit)
 {
-	//ch sea un int, removemos count, añadios un uno al principio y ya que siempre se mueve en algun momento llegara al a posicon 9
-	static int count;
-	static unsigned char ch;
+	static unsigned char ch = 1;
 	
 	if (bit == 1)
 		ch = ch << 1 | 1;
 	else
 		ch = ch << 1;
-	count++;
-	if (count == 8)
+	if ((ch & 128) == 128)
 	{
-		count = 0;
-		if (ch == 0)
-		{
+		if (ch == 128)
 			g_message.msg_ready = 1;
-			return;
+		else
+		{
+			g_message.str[g_message.size] = ch - 128;
+			g_message.size++;
+			g_message.need_space = 1;
 		}
-		g_message.str[g_message.size] = ch;
-		g_message.size++;
-		g_message.need_space = 1;
-		ch = 0;
+		ch = 1;
 	}
 }
 

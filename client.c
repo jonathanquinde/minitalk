@@ -35,17 +35,17 @@ void	send_string(unsigned char *str, int server_pid)
 {
 	while (*str)
 	{
-		to_binary(*str, server_pid);
+		to_binary(*str << 1, server_pid);
 		str++;
 	}
-	to_binary(*str, server_pid);
+	to_binary(0, server_pid);
 }
 
 void to_binary(unsigned char ch, int server_pid) 
 {
     size_t bits;
 
-    bits = 8;
+    bits = 7;
     while (ch != 0)
     {
 		g_ack = 0;
