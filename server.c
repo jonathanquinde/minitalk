@@ -26,8 +26,6 @@ int	main(void)
 	{
 		if (g_message.need_space)
 			add_space();
-		if (g_message.msg_ready)
-			print_str();
 	}
 }
 
@@ -42,7 +40,7 @@ void	build_byte(unsigned char bit)
 	if ((ch & 128) == 128)
 	{
 		if (ch == 128)
-			g_message.msg_ready = 1;
+			print_str();
 		else
 		{
 			g_message.str[g_message.size] = ch - 128;
@@ -60,7 +58,6 @@ void print_str(void)
 	g_message.str = NULL;
 	g_message.size = 0;
 	g_message.need_space = 1;
-	g_message.msg_ready = 0;
 }
 
 void add_space(void)

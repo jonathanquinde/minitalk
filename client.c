@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 	send_string((unsigned char *) argv[2], server_pid);
-	usleep(1000);
 }
 
 void	send_string(unsigned char *str, int server_pid)

@@ -7,6 +7,5 @@ struct s_message
 {
     unsigned char *str;
     int need_space;
-    int msg_ready;
     size_t size;
 };
