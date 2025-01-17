@@ -2,4 +2,11 @@
 #include <signal.h> 
 #include <unistd.h> 
 #include <string.h> 
-#include "ft_printf.h"
+
+struct s_message
+{
+    unsigned char *str;
+    int need_space;
+    int msg_ready;
+    size_t size;
+};

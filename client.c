@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 	send_string((unsigned char *) argv[2], server_pid);
+	usleep(1000);
 }
 
 void	send_string(unsigned char *str, int server_pid)
@@ -52,27 +53,31 @@ void to_binary(unsigned char ch, int server_pid)
 			kill(server_pid, 10);
         else if ((ch & 128) == 0)
 			kill(server_pid, 12);
-        ch <<= 1;
-        bits--;
 		while (!g_ack)
 		{
 			;
 		}
+        ch <<= 1;
+        bits--;
+		usleep(500);
     }
     while (bits)
     {
 		g_ack = 0;
 		kill(server_pid, 12);
-        bits--;
 		while (!g_ack)
 		{
 			;
 		}
+        bits--;
+		usleep(500);
     }
 }
 
 void	handle(int signum)
 {
 	if (signum == 10)
+	{
 		g_ack = 1;
+	}
 }
