@@ -4,3 +4,6 @@
 client
 server
 *.sh
+
+prueba.c
+binario.c

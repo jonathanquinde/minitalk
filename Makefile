@@ -5,18 +5,17 @@ SRC_CLIENT=client.c
 SRC_SERVER=server.c
 OBJ_CLIENT=$(SRC_CLIENT:.c=.o)
 OBJ_SERVER=$(SRC_SERVER:.c=.o)
-PRINTF=libftprintf.a
 
 CC=cc
-FLAGS=-Wall -Wextra -Werror
+FLAGS= -Wall -Werror -Wextra
 
 all: $(SERVER) $(CLIENT)
 
 $(CLIENT): $(OBJ_CLIENT)
-	$(CC) $(FLAGS) $(OBJ_CLIENT) $(PRINTF) -o $(CLIENT)
+	$(CC) $(FLAGS) $(OBJ_CLIENT) -o $(CLIENT)
 
 $(SERVER): $(OBJ_SERVER)
-	$(CC) $(FLAGS) $(OBJ_SERVER) $(PRINTF) -o $(SERVER)
+	$(CC) $(FLAGS) $(OBJ_SERVER) -lrt -o $(SERVER)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
