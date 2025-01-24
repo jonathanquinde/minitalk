@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 		write(1, "Numero erroneo de argumentos", 28);
 		return (1);
 	}
-	server_pid = atoi(argv[1]);
+	server_pid = ft_atoi(argv[1]);
 	if (server_pid == 0)
 	{
 		write(1, "PID del servidor erroneo", 24);
@@ -40,7 +40,7 @@ void	send_string(unsigned char *str, int server_pid)
 	to_binary(0, server_pid);
 }
 
-void to_binary(unsigned char ch, int server_pid) 
+void to_binary(unsigned char ch, int server_pid)
 {
     size_t bits;
 

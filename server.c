@@ -70,7 +70,7 @@ void add_space(void)
 		free (g_message.str);
 		exit(EXIT_FAILURE);
 	}
-	memcpy(new_str, g_message.str, g_message.size);
+	ft_memcpy(new_str, g_message.str, g_message.size);
 	free (g_message.str);
 	g_message.str = new_str;
 	g_message.need_space = 0;
