@@ -45,7 +45,7 @@ void to_binary(unsigned char ch, int server_pid)
     size_t bits;
 
     bits = 7;
-    while (ch != 0)
+    while (bits)
     {
 		g_ack = 0;
         if ((ch & 128) == 128)
@@ -57,17 +57,6 @@ void to_binary(unsigned char ch, int server_pid)
 			;
 		}
         ch <<= 1;
-        bits--;
-		usleep(500);
-    }
-    while (bits)
-    {
-		g_ack = 0;
-		kill(server_pid, 12);
-		while (!g_ack)
-		{
-			;
-		}
         bits--;
 		usleep(500);
     }
