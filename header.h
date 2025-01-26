@@ -3,7 +3,5 @@
 
 struct s_message
 {
-    unsigned char *str;
-    int need_space;
-    size_t size;
+    t_list *str;
 };
