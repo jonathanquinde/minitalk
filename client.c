@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
 		write(1, "Numero erroneo de argumentos", 28);
 		return (1);
 	}
+	if (argv[2][0] == '\0')
+		return (1);
 	server_pid = ft_atoi(argv[1]);
 	if (server_pid == 0)
 	{
@@ -58,7 +60,6 @@ void to_binary(unsigned char ch, int server_pid)
 		}
         ch <<= 1;
         bits--;
-		usleep(500);
     }
 }
 
