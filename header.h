@@ -4,4 +4,5 @@
 struct s_message
 {
     t_list *str;
+    unsigned char ch;
 };
