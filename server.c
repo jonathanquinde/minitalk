@@ -11,7 +11,7 @@ int	main(void)
 {
 	g_message.ch = 1;
 	write(1, "PID: ", 5);
-	putnbr(getpid());
+	ft_putnbr(getpid());
 	write(1, "\n", 1);
 	g_message.str = NULL;
 	struct sigaction	sa_usr1;

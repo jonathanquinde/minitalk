@@ -36,6 +36,11 @@ void	send_string(unsigned char *str, int server_pid)
 {
 	while (*str)
 	{
+		if (*str > 127)
+		{
+			write(1, "Caracter no soportado\n", 22);
+			return ;
+		}
 		to_binary(*str << 1, server_pid);
 		str++;
 	}
